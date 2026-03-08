@@ -35,9 +35,9 @@ body {
     justify-content: center;
     align-items: center;
     z-index: 5;
+    margin-top: 50px; /* Tạo khoảng cách an toàn phía trên */
 }
 
-/* Hiệu ứng Floating cho cả phong bì */
 .envelope-wrapper {
     position: relative;
     width: 300px;
@@ -48,7 +48,7 @@ body {
 
 @keyframes float {
     0%, 100% { transform: translateY(0) rotate(0); }
-    50% { transform: translateY(-15px) rotate(1deg); }
+    50% { transform: translateY(-10px) rotate(1deg); }
 }
 
 .envelope {
@@ -78,13 +78,12 @@ body {
     z-index: 1;
 }
 
-/* Lá thư: KHỐNG CHẾ CHIỀU CAO Ở ĐÂY */
 .letter {
     position: absolute;
     width: 90%;
     left: 5%;
     bottom: 5%;
-    height: 120%; /* Tăng chiều cao lá thư */
+    height: 100%; /* SỬA LỖI: Giảm từ 120% xuống 100% để bớt to */
     background: white;
     padding: 15px;
     border-radius: 8px;
@@ -97,11 +96,12 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    overflow: hidden;
 }
 
 .envelope.open .letter {
-    /* Bay lên vừa phải, không chạm đỉnh */
-    transform: translateY(-160px) scale(1.1);
+    /* SỬA LỖI: Giảm translateY xuống -130px để không bị tràn lên trên */
+    transform: translateY(-130px) scale(1.1);
     opacity: 1;
     z-index: 7;
 }
@@ -116,8 +116,8 @@ body {
 
 .photo-frame {
     width: 100%;
-    height: 120px;
-    border: 4px solid white;
+    height: 110px; /* Giảm nhẹ chiều cao ảnh */
+    border: 3px solid white;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     overflow: hidden;
     margin: 5px 0;
@@ -125,10 +125,10 @@ body {
 
 .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
 
-/* Motion Hạt lấp lánh */
 .sparkle {
     position: absolute;
     pointer-events: none;
+    z-index: 10;
     animation: sparkleAnim linear forwards;
 }
 
@@ -138,20 +138,32 @@ body {
 }
 
 .title {
-    position: absolute; top: 10%;
-    color: white; font-size: 20px; text-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    position: absolute; 
+    top: 40px;
+    color: white; 
+    font-size: 20px; 
+    text-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    z-index: 10;
 }
 
-.controls { position: absolute; bottom: 10%; }
+.controls { position: absolute; bottom: 30px; z-index: 10; }
 
 .btn-reset {
     padding: 10px 25px;
     border-radius: 25px;
     border: none;
-    background: rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.4);
     color: white;
     backdrop-filter: blur(10px);
     cursor: pointer;
     transition: 0.3s;
 }
 .btn-reset:hover { background: var(--pink); }
+
+/* Class cho cánh hoa hình ảnh */
+.flower-img {
+    position: fixed;
+    top: -50px;
+    pointer-events: none;
+    z-index: 1;
+}

@@ -1,5 +1,8 @@
 let opened = false;
-const message = "Chúc mừng 8/3! Chúc em luôn xinh đẹp, rạng rỡ như đóa hồng và luôn tràn đầy hạnh phúc. Cảm ơn em vì đã làm thế giới này thêm màu sắc!, mong em sẽ luôn tươi cười, có mỏi mệt hay cứ tựa vào anh nhé, anh luôn ở ngay phía sau em. YÊU EM  ✨💖";
+const message = "Chúc mừng 8/3! Chúc em luôn xinh đẹp, rạng rỡ như đóa hồng và luôn tràn đầy hạnh phúc. Cảm ơn em vì đã làm thế giới này thêm màu sắc!, mong em sẽ luôn tươi cười, có mỏi mệt hay cứ tựa vào anh nhé, anh luôn ở ngay phía sau em. YÊU EM ✨💖";
+
+// LINK CÁNH HOA: Bạn có thể thay link ảnh cánh hoa khác tại đây
+const FLOWER_IMAGE = "https://raw.githubusercontent.com/upload/wikipedia/commons/thumb/1/1a/Rose_petal.png/240px-Rose_petal.png";
 
 function openLetter() {
     if (opened) return;
@@ -14,12 +17,12 @@ function openLetter() {
     setTimeout(typeText, 1000);
     
     // Hiệu ứng bùng nổ tim và sao khi mở
-    for(let i=0; i<50; i++) {
+    for(let i=0; i<40; i++) {
         createExplosion();
     }
     
-    // Duy trì các hạt rơi lãng mạn
-    setInterval(createFallingParticle, 500);
+    // Tạo cánh hoa rơi bằng hình ảnh
+    setInterval(createFallingFlower, 600);
 }
 
 function typeText() {
@@ -29,18 +32,17 @@ function typeText() {
         el.innerHTML += message[i];
         i++;
         if (i >= message.length) clearInterval(timer);
-    }, 40);
+    }, 45);
 }
 
 function createExplosion() {
     const p = document.createElement("div");
     p.className = "sparkle";
-    const shapes = ["✨", "❤️", "🌸", "💖"];
+    const shapes = ["✨", "❤️", "💖", "💕"];
     p.innerHTML = shapes[Math.floor(Math.random() * shapes.length)];
     
-    // Tọa độ bùng nổ từ giữa phong bì
-    const tx = (Math.random() - 0.5) * 500 + "px";
-    const ty = (Math.random() - 0.5) * 500 + "px";
+    const tx = (Math.random() - 0.5) * 400 + "px";
+    const ty = (Math.random() - 0.5) * 400 + "px";
     p.style.setProperty('--tx', tx);
     p.style.setProperty('--ty', ty);
     
@@ -54,34 +56,36 @@ function createExplosion() {
     setTimeout(() => p.remove(), 2000);
 }
 
-function createFallingParticle() {
-    const p = document.createElement("div");
-    p.innerHTML = Math.random() > 0.5 ? "🌸" : "✨";
-    p.style.position = "fixed";
-    p.style.left = Math.random() * 100 + "vw";
-    p.style.top = "-20px";
-    p.style.fontSize = Math.random() * 15 + 10 + "px";
-    p.style.transition = "transform 5s linear, opacity 5s";
-    p.style.zIndex = "1";
+function createFallingFlower() {
+    const flower = document.createElement("img");
+    flower.src = FLOWER_IMAGE;
+    flower.className = "flower-img";
+    flower.style.left = Math.random() * 100 + "vw";
     
-    document.body.appendChild(p);
+    const size = Math.random() * 20 + 20 + "px";
+    flower.style.width = size;
+    
+    const duration = Math.random() * 3 + 4; // 4s - 7s
+    flower.style.transition = `transform ${duration}s linear, opacity ${duration}s`;
+    
+    document.body.appendChild(flower);
     
     setTimeout(() => {
-        p.style.transform = `translateY(110vh) rotate(${Math.random() * 360}deg)`;
-        p.style.opacity = "0";
+        flower.style.transform = `translateY(110vh) rotate(${Math.random() * 360}deg)`;
+        flower.style.opacity = "0";
     }, 100);
-    setTimeout(() => p.remove(), 6000);
+    
+    setTimeout(() => flower.remove(), duration * 1000);
 }
 
 function resetCard() {
     location.reload();
 }
 
-// Motion 3D Tilt theo chuột
 document.addEventListener("mousemove", (e) => {
     if (!opened) {
-        const moveX = (window.innerWidth / 2 - e.pageX) / 15;
-        const moveY = (window.innerHeight / 2 - e.pageY) / 15;
+        const moveX = (window.innerWidth / 2 - e.pageX) / 20;
+        const moveY = (window.innerHeight / 2 - e.pageY) / 20;
         document.getElementById("env").style.transform = `rotateY(${moveX}deg) rotateX(${moveY}deg)`;
     }
 });
